@@ -1,0 +1,22 @@
+[
+  {
+    "emote": "💧",
+    "role": "Patrigan Follower",
+    "description": "Patrigan Follower, gain access to the Slimelands"
+  },
+  {
+    "emote": "🍄",
+    "role": "Nicalia Follower",
+    "description": "Nicalia Follower, gain access to the Mushroom Island"
+  },
+  {
+    "emote": "🌲",
+    "role": "Valthek Follower",
+    "description": "Valthek Follower, gain access to the Sprue Forest"
+  },
+  {
+    "emote": "<:grass_block:601353406577246208>",
+    "role": "Minecraft",
+    "description": "Minecraft Interest, gain access to the Minecraft section"
+  }
+]

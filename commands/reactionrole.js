@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 module.exports = {
     name: 'reactionrole',
     description: "Sets up a reaction role message!",
@@ -5,20 +7,28 @@ module.exports = {
         const channel = '850092871600046110';
         const yellowTeamRole = message.guild.roles.cache.find(role => role.name === "Test1");
         const blueTeamRole = message.guild.roles.cache.find(role => role.name === "Test2");
-
-        const yellowTeamEmoji = '💧';
-        const blueTeamEmoji = '🍄';
+        let rawdata = fs.readFileSync('../data/student.json');
+        let roles = JSON.parse(rawdata);
+        let emoteMap = new Map();
 
         let embed = new Discord.MessageEmbed()
             .setColor('#e42643')
-            .setTitle('Choose a team to play on!')
-            .setDescription('Choosing a team will allow you to interact with your teammates!\n\n'
-                + `${yellowTeamEmoji} for yellow team\n`
-                + `${blueTeamEmoji} for blue team`);
+            .setTitle('Choose a team to play on!');
+
+        let description = 'Choosing a team will allow you to interact with your teammates!\n\n';
+        roles.forEach(role =>
+            {
+                description = description.concat(role.emote + " - " + role.description);
+            }
+        )
 
         let messageEmbed = await message.channel.send(embed);
-        messageEmbed.react(yellowTeamEmoji);
-        messageEmbed.react(blueTeamEmoji);
+        roles.forEach(role =>
+            {
+                messageEmbed.react(role.emote);
+                emoteMap[role.emote] = message.guild.roles.cache.find(discordRole => discordRole.name === role.role);
+            }
+        )
 
         client.on('messageReactionAdd', async (reaction, user) => {
             if (reaction.message.partial) await reaction.message.fetch();
@@ -27,11 +37,8 @@ module.exports = {
             if (!reaction.message.guild) return;
 
             if (reaction.message.channel.id == channel) {
-                if (reaction.emoji.name === yellowTeamEmoji) {
-                    await reaction.message.guild.members.cache.get(user.id).roles.add(yellowTeamRole);
-                }
-                if (reaction.emoji.name === blueTeamEmoji) {
-                    await reaction.message.guild.members.cache.get(user.id).roles.add(blueTeamRole);
+                if(reaction.emoji.name in emoteMap){
+                    await reaction.message.guild.members.cache.get(user.id).roles.add(emoteMap[reaction.emoji.name]);
                 }
             } else {
                 return;
@@ -48,11 +55,8 @@ module.exports = {
 
 
             if (reaction.message.channel.id == channel) {
-                if (reaction.emoji.name === yellowTeamEmoji) {
-                    await reaction.message.guild.members.cache.get(user.id).roles.remove(yellowTeamRole);
-                }
-                if (reaction.emoji.name === blueTeamEmoji) {
-                    await reaction.message.guild.members.cache.get(user.id).roles.remove(blueTeamRole);
+                if(reaction.emoji.name in emoteMap){
+                    await reaction.message.guild.members.cache.get(user.id).roles.remove(emoteMap[reaction.emoji.name]);
                 }
             } else {
                 return;
