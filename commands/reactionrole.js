@@ -2,12 +2,12 @@ module.exports = {
     name: 'reactionrole',
     description: "Sets up a reaction role message!",
     async execute(message, args, Discord, client) {
-        const channel = 'YOUR_CHANNEL';
-        const yellowTeamRole = message.guild.roles.cache.find(role => role.name === "YOUR_ROLE");
-        const blueTeamRole = message.guild.roles.cache.find(role => role.name === "YOUR_ROLE");
+        const channel = '850092871600046110';
+        const yellowTeamRole = message.guild.roles.cache.find(role => role.name === "Test1");
+        const blueTeamRole = message.guild.roles.cache.find(role => role.name === "Test2");
 
-        const yellowTeamEmoji = 'YOUR_EMOJI';
-        const blueTeamEmoji = 'YOUR_EMOJI';
+        const yellowTeamEmoji = '836074705122754590';
+        const blueTeamEmoji = '843639850020241455';
 
         let embed = new Discord.MessageEmbed()
             .setColor('#e42643')
